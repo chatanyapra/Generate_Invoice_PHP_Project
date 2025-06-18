@@ -1,0 +1,136 @@
+<!-- create-invoice.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Invoice | J.V. Jewellers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans text-sm">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r">
+      <div class="p-4 font-bold text-lg border-b">
+        <span class="text-blue-600">🧾</span> J.V. Jewellers
+        <p class="text-xs text-gray-500">GST Invoice Generator</p>
+      </div>
+      <nav class="flex flex-col mt-4 space-y-1 text-gray-700">
+        <a href="#" class="px-4 py-2 hover:bg-gray-100">Dashboard</a>
+        <a href="#" class="px-4 py-2 bg-blue-50 font-semibold text-blue-700">Create Invoice</a>
+        <a href="#" class="px-4 py-2 hover:bg-gray-100">All Invoices</a>
+        <a href="#" class="px-4 py-2 hover:bg-gray-100">Customers</a>
+        <a href="#" class="px-4 py-2 hover:bg-gray-100">Reports</a>
+        <a href="#" class="px-4 py-2 hover:bg-gray-100">Settings</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <h1 class="text-2xl font-semibold mb-2">Create New Invoice</h1>
+      <p class="text-sm text-gray-500 mb-4">Step 1: Invoice Details</p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left Section -->
+        <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-4">Transaction Information</h2>
+
+          <div class="mb-4">
+            <label class="block font-medium mb-1">Transaction Type</label>
+            <div class="flex space-x-4">
+              <label><input type="radio" name="type" checked /> Retail Sales</label>
+              <label><input type="radio" name="type" /> Inter-city Sales</label>
+              <label><input type="radio" name="type" /> Purchase</label>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="block font-medium mb-1">Input Mode</label>
+            <div class="flex space-x-4">
+              <label><input type="radio" name="mode" checked /> Component Entry</label>
+              <label><input type="radio" name="mode" /> Direct Amount Entry</label>
+              <label><input type="radio" name="mode" /> Reverse Calculation</label>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block">Invoice Date</label>
+              <input type="date" class="w-full border rounded px-3 py-2 mt-1" />
+            </div>
+            <div>
+              <label class="block">Invoice Number</label>
+              <input type="text" value="JVJ/021" class="w-full border rounded px-3 py-2 mt-1" />
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="block">E-way Bill Number (Optional)</label>
+            <input type="text" class="w-full border rounded px-3 py-2 mt-1" />
+          </div>
+
+          <h2 class="text-lg font-semibold mb-4">Buyer Information</h2>
+          <div class="mb-4">
+            <label class="block">Select Customer</label>
+            <select class="w-full border rounded px-3 py-2 mt-1">
+              <option>Select a customer</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="block">Buyer Name</label>
+            <input type="text" class="w-full border rounded px-3 py-2 mt-1" />
+          </div>
+
+          <div class="mb-4">
+            <label class="block">Address</label>
+            <textarea class="w-full border rounded px-3 py-2 mt-1"></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block">GSTIN</label>
+              <input type="text" class="w-full border rounded px-3 py-2 mt-1" />
+            </div>
+            <div>
+              <label class="block">State & Code</label>
+              <select class="w-full border rounded px-3 py-2 mt-1">
+                <option>Select State</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="bg-gray-100 text-gray-600 p-2 rounded text-sm mb-4">Tax Type: CGST + SGST</div>
+
+          <button class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Continue to Line Items →</button>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-4">Information</h2>
+          <p class="text-sm mb-2">
+            <strong>J.V. JEWELLERS</strong><br>
+            SHOP NO. -2, KRISHNA HEIGHT, JAY SINGH PURA<br>
+            MATHURA<br>
+            GSTIN: 09ADCPV2673H1Z7<br>
+            State: Uttar Pradesh (09)
+          </p>
+
+          <h3 class="font-semibold mt-4 mb-2">Transaction Types</h3>
+          <ul class="text-sm list-disc pl-5 space-y-1">
+            <li><span class="text-blue-500">Retail Sales:</span> CGST + SGST</li>
+            <li><span class="text-purple-500">Inter-city Sales:</span> IGST</li>
+            <li><span class="text-yellow-500">Purchase:</span> Inward procurement</li>
+          </ul>
+
+          <h3 class="font-semibold mt-4 mb-2">Input Modes</h3>
+          <ul class="text-sm list-disc pl-5 space-y-1">
+            <li><span class="text-blue-500">Component Entry:</span> Auto-calculated</li>
+            <li><span class="text-gray-700">Direct Amount:</span> Enter total manually</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
