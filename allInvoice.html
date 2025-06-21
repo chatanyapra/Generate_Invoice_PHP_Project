@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers - J.V. Jewellers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom select arrow */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50">
+
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-full lg:w-64 bg-white border-r border-slate-200 flex-shrink-0">
+            <div class="p-6">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-blue-600 text-white p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.176-5.97m8.176 5.97h3v1a1 1 0 01-1 1h-2v-2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-slate-800">J.V. Jewellers</h2>
+                        <p class="text-xs text-slate-500">GST Invoice Generator</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="mt-2 px-4">
+                <a href="#" class="flex items-center px-4 py-2 text-slate-700 rounded-lg hover:bg-slate-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 mt-1 text-slate-700 rounded-lg hover:bg-slate-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Create Invoice
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 mt-1 text-slate-700 rounded-lg hover:bg-slate-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    All Invoices
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 mt-1 text-white bg-blue-600 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.176-5.97m8.176 5.97h3v1a1 1 0 01-1 1h-2v-2z" />
+                    </svg>
+                    Customers
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 mt-1 text-slate-700 rounded-lg hover:bg-slate-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Reports
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 mt-1 text-slate-700 rounded-lg hover:bg-slate-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 bg-slate-100">
+            <div class="bg-white h-16 w-full border-b border-slate-200"></div> <!-- Placeholder for blue bar area -->
+
+            <div class="p-4 sm:p-6 lg:p-8">
+                <!-- Page Header -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">Customers</h1>
+                        <p class="text-slate-500 mt-1">Manage your customer database for invoicing.</p>
+                    </div>
+                    <button id="add-customer-btn"
+                        class="mt-4 sm:mt-0 flex items-center justify-center bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-blue-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Add New Customer
+                    </button>
+                </div>
+
+                <!-- Search Customers -->
+                <div class="mt-8 bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                    <h3 class="text-lg font-semibold text-slate-800">Search Customers</h3>
+                    <div class="relative mt-4">
+                        <input type="text" placeholder="Search by name, GSTIN, or state..."
+                            class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm pr-16">
+                        <button
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-sm font-medium text-slate-500 hover:text-slate-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Customer List -->
+                <div class="mt-8 bg-white rounded-lg shadow-sm border border-slate-200">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-slate-800">Customer List</h3>
+                        <p class="text-sm text-slate-500 mt-1">1 customers found</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-slate-600 uppercase bg-slate-50 border-y border-slate-200">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 font-medium">Name</th>
+                                    <th scope="col" class="px-6 py-3 font-medium">GSTIN</th>
+                                    <th scope="col" class="px-6 py-3 font-medium">State</th>
+                                    <th scope="col" class="px-6 py-3 font-medium">Address</th>
+                                    <th scope="col" class="px-6 py-3 font-medium text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-700">
+                                <tr class="border-b border-slate-200 last:border-b-0">
+                                    <td class="px-6 py-4 whitespace-nowrap font-medium">RAJEEV KUMAR SANDEEP KUMAR JAIN
+                                        SARRAF</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">09ABQCJ6912Z1ZX</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Uttar Pradesh (09)</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">SAHARANPUR</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                                        <a href="#" class="font-medium text-blue-600 hover:text-blue-800">Edit</a>
+                                        <a href="#" class="ml-4 font-medium text-red-600 hover:text-red-800">Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add New Customer Modal -->
+    <div id="customer-modal"
+        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden" role="dialog"
+        aria-modal="true" aria-labelledby="modal-title">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-slate-200 flex justify-between items-start">
+                <div>
+                    <h2 id="modal-title" class="text-lg font-semibold text-slate-800">Add New Customer</h2>
+                    <p class="text-sm text-slate-500 mt-1">Add a new customer to your database</p>
+                </div>
+                <button id="close-modal-btn" class="text-slate-400 hover:text-slate-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-4">
+                <div>
+                    <label for="customer-name" class="block text-sm font-medium text-slate-700">Customer Name</label>
+                    <input type="text" id="customer-name"
+                        class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="address" class="block text-sm font-medium text-slate-700">Address</label>
+                    <input type="text" id="address"
+                        class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="gstin" class="block text-sm font-medium text-slate-700">GSTIN (Optional)</label>
+                    <input type="text" id="gstin"
+                        class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="state" class="block text-sm font-medium text-slate-700">State</label>
+                        <select id="state"
+                            class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                            <option>Select State</option>
+                            <option>Uttar Pradesh</option>
+                            <option>Maharashtra</option>
+                            <option>Delhi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="state-code" class="block text-sm font-medium text-slate-700">State Code</label>
+                        <input type="text" id="state-code" placeholder="Code"
+                            class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-slate-50"
+                            readonly>
+                    </div>
+                </div>
+                <div>
+                    <label for="vattin" class="block text-sm font-medium text-slate-700">VAT TIN (Optional)</label>
+                    <input type="text" id="vattin"
+                        class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 bg-slate-50 rounded-b-lg flex justify-end items-center space-x-3">
+                <button id="cancel-btn" type="button"
+                    class="bg-white py-2 px-4 border border-slate-300 rounded-md shadow-sm text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Add Customer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addCustomerBtn = document.getElementById('add-customer-btn');
+            const customerModal = document.getElementById('customer-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+
+            const openModal = () => customerModal.classList.remove('hidden');
+            const closeModal = () => customerModal.classList.add('hidden');
+
+            addCustomerBtn.addEventListener('click', openModal);
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+
+            // Close modal when clicking on the overlay
+            customerModal.addEventListener('click', (event) => {
+                if (event.target === customerModal) {
+                    closeModal();
+                }
+            });
+
+            // Close modal on 'Escape' key press
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
