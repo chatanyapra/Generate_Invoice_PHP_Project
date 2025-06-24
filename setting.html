@@ -8,20 +8,109 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(function() {
+      // Tab functionality
       $(".tab-button").click(function() {
         $(".tab-button").removeClass("bg-blue-100 text-blue-700").addClass("text-gray-600 hover:text-black");
         $(this).removeClass("text-gray-600 hover:text-black").addClass("bg-blue-100 text-blue-700");
         $(".tab-content").addClass("hidden");
         $("#" + $(this).data("target")).removeClass("hidden");
       });
+      
+      // Toggle sidebar
+      $("#sidebarToggle").click(function(e) {
+        e.stopPropagation();
+        $("aside").toggleClass("-translate-x-full");
+        $(this).toggleClass("active");
+      });
+      
+      // Close sidebar when clicking outside on mobile
+      $(document).click(function() {
+        if ($(window).width() < 768) {
+          $("aside").addClass("-translate-x-full");
+          $("#sidebarToggle").removeClass("active");
+        }
+      });
+
+      // Prevent sidebar clicks from closing it
+      $("aside").click(function(e) {
+        e.stopPropagation();
+      });
+      
+      // Adjust layout on resize
+      function handleResize() {
+        if ($(window).width() >= 768) {
+          $("aside").removeClass("-translate-x-full");
+          $("#sidebarToggle").removeClass("active");
+        }
+      }
+      
+      $(window).resize(handleResize);
+      handleResize(); // Run on load
     });
   </script>
+  <style>
+    .hamburger {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .hamburger.active .hamburger-line:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .hamburger.active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active .hamburger-line:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+    .hamburger-line {
+      transition: all 0.3s ease;
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: #374151;
+      margin: 5px 0;
+    }
+    aside {
+      transition: transform 0.3s ease;
+      z-index: 40;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 30;
+    }
+    @media (max-width: 767px) {
+      aside.-translate-x-full + .overlay {
+        display: none;
+      }
+      aside:not(.-translate-x-full) + .overlay {
+        display: block;
+      }
+    }
+  </style>
 </head>
 <body class="bg-gray-100 font-sans text-sm">
 
-  <!-- Sidebar -->
+  <!-- Mobile Header with Hamburger -->
+  <header class="md:hidden bg-white p-4 flex items-center justify-between border-b sticky top-0 z-50">
+    <div class="font-bold text-lg">
+      <span class="text-blue-600">🧾</span> J.V. Jewellers
+    </div>
+    <button id="sidebarToggle" class="hamburger p-2 focus:outline-none">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </header>
+
+  <!-- Sidebar and Overlay -->
   <div class="flex min-h-screen">
-    <aside class="w-64 bg-white border-r">
+    <aside class="fixed md:relative w-64 bg-white border-r transform -translate-x-full md:translate-x-0 h-screen md:h-auto">
       <div class="p-4 font-bold text-lg border-b">
         <span class="text-blue-600">🧾</span> J.V. Jewellers
         <p class="text-xs text-gray-500">GST Invoice Generator</p>
@@ -41,204 +130,206 @@
         <div class="text-xs">admin@jvjewellers.com</div>
       </div>
     </aside>
+    
+    <!-- Overlay for mobile -->
+    <div class="overlay"></div>
 
     <!-- Main Content -->
-    <main class="flex-1 p-6">
+    <main class="flex-1 p-4 md:p-6 mt-16 md:mt-0 transition-all duration-300">
       <div class="mb-4">
-        <h1 class="text-2xl font-semibold">Settings</h1>
-        <p class="text-sm text-gray-500">Configure your shop profile, tax rates, and system preferences</p>
+        <h1 class="text-xl md:text-2xl font-semibold">Settings</h1>
+        <p class="text-xs md:text-sm text-gray-500">Configure your shop profile, tax rates, and system preferences</p>
       </div>
 
-      <!-- Tabs -->
-      <div class="flex space-x-2 mb-4">
-        <button class="tab-button bg-blue-100 text-blue-700 px-4 py-2 rounded-md font-medium" data-target="shopProfileTab">Shop Profile</button>
-        <button class="tab-button text-gray-600 hover:text-black px-4 py-2 rounded-md font-medium" data-target="taxRatesTab">Tax Rates</button>
-        <button class="tab-button text-gray-600 hover:text-black px-4 py-2 rounded-md font-medium" data-target="invoiceSettingsTab">Invoice Settings</button>
+      <!-- Tabs - Made scrollable on mobile -->
+      <div class="flex overflow-x-auto pb-2 mb-4 scrollbar-hide space-x-2">
+        <button class="tab-button bg-blue-100 text-blue-700 px-4 py-2 rounded-md font-medium whitespace-nowrap" data-target="shopProfileTab">Shop Profile</button>
+        <button class="tab-button text-gray-600 hover:text-black px-4 py-2 rounded-md font-medium whitespace-nowrap" data-target="taxRatesTab">Tax Rates</button>
+        <button class="tab-button text-gray-600 hover:text-black px-4 py-2 rounded-md font-medium whitespace-nowrap" data-target="invoiceSettingsTab">Invoice Settings</button>
       </div>
 
       <!-- Shop Profile Form -->
-      <div id="shopProfileTab" class="tab-content bg-white p-6 rounded-lg shadow">
+      <div id="shopProfileTab" class="tab-content bg-white p-4 md:p-6 rounded-lg shadow">
         <h2 class="text-lg font-semibold mb-4">Shop Profile</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-gray-600">Shop Name</label>
-            <input type="text" value="J.V. JEWELLERS" class="w-full border rounded px-3 py-2 mt-1" />
+            <label class="block text-gray-600 text-sm md:text-base">Shop Name</label>
+            <input type="text" value="J.V. JEWELLERS" class="w-full border rounded px-3 py-2 mt-1 text-sm md:text-base" />
           </div>
           <div>
-            <label class="block text-gray-600">GSTIN</label>
-            <input type="text" value="09ADCPV2673H1Z7" class="w-full border rounded px-3 py-2 mt-1" />
+            <label class="block text-gray-600 text-sm md:text-base">GSTIN</label>
+            <input type="text" value="09ADCPV2673H1Z7" class="w-full border rounded px-3 py-2 mt-1 text-sm md:text-base" />
           </div>
 
           <div class="md:col-span-2">
-            <label class="block text-gray-600">Address</label>
-            <input type="text" value="SHOP NO. -2, KRISHNA HEIGHT, JAY SINGH PURA" class="w-full border rounded px-3 py-2 mt-1" />
+            <label class="block text-gray-600 text-sm md:text-base">Address</label>
+            <input type="text" value="SHOP NO. -2, KRISHNA HEIGHT, JAY SINGH PURA" class="w-full border rounded px-3 py-2 mt-1 text-sm md:text-base" />
           </div>
 
           <div>
-            <label class="block text-gray-600">City</label>
-            <input type="text" value="MATHURA" class="w-full border rounded px-3 py-2 mt-1" />
+            <label class="block text-gray-600 text-sm md:text-base">City</label>
+            <input type="text" value="MATHURA" class="w-full border rounded px-3 py-2 mt-1 text-sm md:text-base" />
           </div>
           <div>
-            <label class="block text-gray-600">State</label>
-            <select class="w-full border rounded px-3 py-2 mt-1">
+            <label class="block text-gray-600 text-sm md:text-base">State</label>
+            <select class="w-full border rounded px-3 py-2 mt-1 text-sm md:text-base">
               <option selected>Uttar Pradesh</option>
-              <!-- Add more states if needed -->
             </select>
           </div>
           <div>
-            <label class="block text-gray-600">State Code</label>
-            <select class="w-full border rounded px-3 py-2 mt-1">
+            <label class="block text-gray-600 text-sm md:text-base">State Code</label>
+            <select class="w-full border rounded px-3 py-2 mt-1 text-sm md:text-base">
               <option selected>09 (UP)</option>
             </select>
           </div>
 
           <div>
-            <label class="block text-gray-600">VAT TIN</label>
-            <input type="text" value="09627100742" class="w-full border rounded px-3 py-2 mt-1" />
+            <label class="block text-gray-600 text-sm md:text-base">VAT TIN</label>
+            <input type="text" value="09627100742" class="w-full border rounded px-3 py-2 mt-1 text-sm md:text-base" />
           </div>
           <div>
-            <label class="block text-gray-600">PAN Number</label>
-            <input type="text" value="ADCPV2673H" class="w-full border rounded px-3 py-2 mt-1" />
+            <label class="block text-gray-600 text-sm md:text-base">PAN Number</label>
+            <input type="text" value="ADCPV2673H" class="w-full border rounded px-3 py-2 mt-1 text-sm md:text-base" />
           </div>
 
           <div class="md:col-span-2">
-            <label class="block text-gray-600">Bank Name</label>
-            <input type="text" value="ICICI BANK C/A NO. 027405001417 (JVM)" class="w-full border rounded px-3 py-2 mt-1" />
+            <label class="block text-gray-600 text-sm md:text-base">Bank Name</label>
+            <input type="text" value="ICICI BANK C/A NO. 027405001417 (JVM)" class="w-full border rounded px-3 py-2 mt-1 text-sm md:text-base" />
           </div>
           <div class="md:col-span-2">
-            <label class="block text-gray-600">Branch & IFSC Code</label>
-            <input type="text" placeholder="Enter Branch & IFSC Code" class="w-full border rounded px-3 py-2 mt-1" />
+            <label class="block text-gray-600 text-sm md:text-base">Branch & IFSC Code</label>
+            <input type="text" placeholder="Enter Branch & IFSC Code" class="w-full border rounded px-3 py-2 mt-1 text-sm md:text-base" />
           </div>
         </div>
 
         <div class="mt-6">
-          <button class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Save Changes</button>
+          <button class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 text-sm md:text-base">Save Changes</button>
         </div>
       </div>
 
       <!-- Tax Rates Tab -->
-      <div id="taxRatesTab" class="tab-content hidden">
-        <div class="bg-white rounded shadow p-6 mb-6">
-          <h2 class="text-xl font-semibold mb-2">Tax Rates</h2>
-          <p class="text-sm text-gray-600 mb-4">Manage GST rates for different product categories</p>
+      <div id="taxRatesTab" class="tab-content hidden bg-white rounded shadow p-4 md:p-6">
+        <div class="mb-6">
+          <h2 class="text-lg md:text-xl font-semibold mb-2">Tax Rates</h2>
+          <p class="text-xs md:text-sm text-gray-600 mb-4">Manage GST rates for different product categories</p>
 
-          <table class="w-full text-sm text-left mb-4">
-            <thead class="bg-gray-100">
-              <tr>
-                <th class="px-4 py-2">HSN Code</th>
-                <th class="px-4 py-2">Description</th>
-                <th class="px-4 py-2">CGST Rate</th>
-                <th class="px-4 py-2">SGST Rate</th>
-                <th class="px-4 py-2">IGST Rate</th>
-                <th class="px-4 py-2">Default</th>
-                <th class="px-4 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b">
-                <td class="px-4 py-2">7113</td>
-                <td class="px-4 py-2">Jewellery</td>
-                <td class="px-4 py-2">1.5%</td>
-                <td class="px-4 py-2">1.5%</td>
-                <td class="px-4 py-2">3%</td>
-                <td class="px-4 py-2">Yes</td>
-                <td class="px-4 py-2 text-blue-600 cursor-pointer">Edit</td>
-              </tr>
-              <tr class="border-b">
-                <td class="px-4 py-2">7106</td>
-                <td class="px-4 py-2">Silver</td>
-                <td class="px-4 py-2">1.5%</td>
-                <td class="px-4 py-2">1.5%</td>
-                <td class="px-4 py-2">3%</td>
-                <td class="px-4 py-2">No</td>
-                <td class="px-4 py-2 text-blue-600 cursor-pointer">Edit</td>
-              </tr>
-              <tr>
-                <td class="px-4 py-2">7108</td>
-                <td class="px-4 py-2">Gold</td>
-                <td class="px-4 py-2">1.5%</td>
-                <td class="px-4 py-2">1.5%</td>
-                <td class="px-4 py-2">3%</td>
-                <td class="px-4 py-2">No</td>
-                <td class="px-4 py-2 text-blue-600 cursor-pointer">Edit</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs md:text-sm text-left mb-4">
+              <thead class="bg-gray-100">
+                <tr>
+                  <th class="px-2 py-2 md:px-4">HSN Code</th>
+                  <th class="px-2 py-2 md:px-4">Description</th>
+                  <th class="px-2 py-2 md:px-4">CGST Rate</th>
+                  <th class="px-2 py-2 md:px-4">SGST Rate</th>
+                  <th class="px-2 py-2 md:px-4">IGST Rate</th>
+                  <th class="px-2 py-2 md:px-4">Default</th>
+                  <th class="px-2 py-2 md:px-4">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b">
+                  <td class="px-2 py-2 md:px-4">7113</td>
+                  <td class="px-2 py-2 md:px-4">Jewellery</td>
+                  <td class="px-2 py-2 md:px-4">1.5%</td>
+                  <td class="px-2 py-2 md:px-4">1.5%</td>
+                  <td class="px-2 py-2 md:px-4">3%</td>
+                  <td class="px-2 py-2 md:px-4">Yes</td>
+                  <td class="px-2 py-2 md:px-4 text-blue-600 cursor-pointer">Edit</td>
+                </tr>
+                <tr class="border-b">
+                  <td class="px-2 py-2 md:px-4">7106</td>
+                  <td class="px-2 py-2 md:px-4">Silver</td>
+                  <td class="px-2 py-2 md:px-4">1.5%</td>
+                  <td class="px-2 py-2 md:px-4">1.5%</td>
+                  <td class="px-2 py-2 md:px-4">3%</td>
+                  <td class="px-2 py-2 md:px-4">No</td>
+                  <td class="px-2 py-2 md:px-4 text-blue-600 cursor-pointer">Edit</td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-2 md:px-4">7108</td>
+                  <td class="px-2 py-2 md:px-4">Gold</td>
+                  <td class="px-2 py-2 md:px-4">1.5%</td>
+                  <td class="px-2 py-2 md:px-4">1.5%</td>
+                  <td class="px-2 py-2 md:px-4">3%</td>
+                  <td class="px-2 py-2 md:px-4">No</td>
+                  <td class="px-2 py-2 md:px-4 text-blue-600 cursor-pointer">Edit</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <!-- Add Tax Rate -->
-        <div class="bg-white rounded shadow p-6 w-full max-w-md">
+        <div class="bg-gray-50 rounded shadow p-4 md:p-6 w-full">
           <h2 class="text-lg font-semibold mb-4">Add New Tax Rate</h2>
-          <form class="space-y-4">
-            <input type="text" placeholder="HSN Code" class="w-full px-3 py-2 border rounded" />
-            <input type="text" placeholder="Description" class="w-full px-3 py-2 border rounded" />
-            <select class="w-full px-3 py-2 border rounded">
+          <form class="space-y-3 md:space-y-4">
+            <input type="text" placeholder="HSN Code" class="w-full px-3 py-2 border rounded text-sm md:text-base" />
+            <input type="text" placeholder="Description" class="w-full px-3 py-2 border rounded text-sm md:text-base" />
+            <select class="w-full px-3 py-2 border rounded text-sm md:text-base">
               <option>1.5%</option>
             </select>
-            <select class="w-full px-3 py-2 border rounded">
+            <select class="w-full px-3 py-2 border rounded text-sm md:text-base">
               <option>1.5%</option>
             </select>
-            <select class="w-full px-3 py-2 border rounded">
+            <select class="w-full px-3 py-2 border rounded text-sm md:text-base">
               <option>3%</option>
             </select>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Tax Rate</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded text-sm md:text-base">Add Tax Rate</button>
           </form>
         </div>
       </div>
 
       <!-- Invoice Settings Tab -->
-      <div id="invoiceSettingsTab" class="tab-content hidden">
-        <div class="bg-white rounded shadow p-6">
-          <h2 class="text-xl font-semibold mb-4">Invoice Settings</h2>
+      <div id="invoiceSettingsTab" class="tab-content hidden bg-white rounded shadow p-4 md:p-6">
+        <h2 class="text-lg md:text-xl font-semibold mb-4">Invoice Settings</h2>
 
-          <div class="grid md:grid-cols-2 gap-6">
-            <div>
-              <label class="block font-medium text-sm mb-1">Invoice Prefix</label>
-              <input type="text" value="JVJ/D/" class="w-full px-3 py-2 border rounded mb-2" />
-              <p class="text-sm text-gray-500">Examples: JVJ/D/, INV-, BILL-</p>
-            </div>
-
-            <div>
-              <label class="block font-medium text-sm mb-1">Default Transaction Type</label>
-              <select class="w-full px-3 py-2 border rounded">
-                <option>Retail Sales</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block font-medium text-sm mb-1">Number of Digits</label>
-              <select class="w-full px-3 py-2 border rounded">
-                <option>3 (001-999)</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block font-medium text-sm mb-1">Default Input Mode</label>
-              <select class="w-full px-3 py-2 border rounded">
-                <option>Component Entry</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block font-medium text-sm mb-1">Starting Number</label>
-              <input type="text" value="020" class="w-full px-3 py-2 border rounded" />
-              <p class="text-sm text-gray-500">Next invoice will be: JVJ/D/020</p>
-            </div>
-
-            <div>
-              <label class="block font-medium text-sm mb-1">Invoice Copies</label>
-              <div class="space-y-1">
-                <label class="flex items-center"><input type="checkbox" class="mr-2" checked/> Original for Recipient</label>
-                <label class="flex items-center"><input type="checkbox" class="mr-2" checked/> Duplicate for Transporter</label>
-                <label class="flex items-center"><input type="checkbox" class="mr-2" checked/> Triplicate for Supplier</label>
-              </div>
-            </div>
+        <div class="grid md:grid-cols-2 gap-4 md:gap-6">
+          <div>
+            <label class="block font-medium text-xs md:text-sm mb-1">Invoice Prefix</label>
+            <input type="text" value="JVJ/D/" class="w-full px-3 py-2 border rounded mb-2 text-sm md:text-base" />
+            <p class="text-xs md:text-sm text-gray-500">Examples: JVJ/D/, INV-, BILL-</p>
           </div>
 
-          <div class="mt-6">
-            <button class="bg-blue-600 text-white px-6 py-2 rounded">Save Settings</button>
+          <div>
+            <label class="block font-medium text-xs md:text-sm mb-1">Default Transaction Type</label>
+            <select class="w-full px-3 py-2 border rounded text-sm md:text-base">
+              <option>Retail Sales</option>
+            </select>
           </div>
+
+          <div>
+            <label class="block font-medium text-xs md:text-sm mb-1">Number of Digits</label>
+            <select class="w-full px-3 py-2 border rounded text-sm md:text-base">
+              <option>3 (001-999)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-medium text-xs md:text-sm mb-1">Default Input Mode</label>
+            <select class="w-full px-3 py-2 border rounded text-sm md:text-base">
+              <option>Component Entry</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-medium text-xs md:text-sm mb-1">Starting Number</label>
+            <input type="text" value="020" class="w-full px-3 py-2 border rounded text-sm md:text-base" />
+            <p class="text-xs md:text-sm text-gray-500">Next invoice will be: JVJ/D/020</p>
+          </div>
+
+          <div>
+            <label class="block font-medium text-xs md:text-sm mb-1">Invoice Copies</label>
+            <div class="space-y-1 text-xs md:text-sm">
+              <label class="flex items-center"><input type="checkbox" class="mr-2" checked/> Original for Recipient</label>
+              <label class="flex items-center"><input type="checkbox" class="mr-2" checked/> Duplicate for Transporter</label>
+              <label class="flex items-center"><input type="checkbox" class="mr-2" checked/> Triplicate for Supplier</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <button class="bg-blue-600 text-white px-6 py-2 rounded text-sm md:text-base">Save Settings</button>
         </div>
       </div>
     </main>
