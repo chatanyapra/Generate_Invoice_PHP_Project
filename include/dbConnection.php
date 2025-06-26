@@ -4,9 +4,9 @@ if(!isset($_SESSION)){
     session_start();
 } 
 ob_start();
-$serverUsename = $_SERVER["HTTP_HOST"] == "localhost" ? "root" : "lafloridians";
+$serverUsename = $_SERVER["HTTP_HOST"] == "localhost" ? "root" : "invoice_generate";
 $serverPassword = $_SERVER["HTTP_HOST"] == "localhost" ? "" : "rWut[vbETCJE";
-$database = $_SERVER["HTTP_HOST"] == "localhost" ? "speedglobalsolutions" : "lafloridians";
+$database = $_SERVER["HTTP_HOST"] == "localhost" ? "invoice_generate" : "invoice_generate";
 $connection = mysqli_connect("localhost", $serverUsename, $serverPassword) or die("Database Connection Failed.");
 
 if(!$connection)

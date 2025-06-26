@@ -1,52 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Settings | J.V. Jewellers</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href="main.css" />
-</head>
-<body class="bg-gray-100 font-sans text-sm">
-
-  <!-- Mobile Header with Hamburger -->
-  <header class="md:hidden bg-white p-4 flex items-center justify-between border-b sticky top-0 z-50">
-    <div class="font-bold text-lg">
-      <span class="text-blue-600">🧾</span> J.V. Jewellers
-    </div>
-    <button id="sidebarToggle" class="hamburger p-2 focus:outline-none">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
-  </header>
-
-  <!-- Sidebar and Overlay -->
-  <div class="flex min-h-screen">
-    <aside class="fixed md:relative w-64 bg-white border-r transform -translate-x-full md:translate-x-0 h-screen md:h-auto">
-      <div class="p-4 font-bold text-lg border-b">
-        <span class="text-blue-600">🧾</span> J.V. Jewellers
-        <p class="text-xs text-gray-500">GST Invoice Generator</p>
-      </div>
-      <nav class="flex flex-col mt-4 space-y-1 text-gray-700">
-        <a href="#" class="px-4 py-2 hover:bg-gray-100">Dashboard</a>
-        <a href="#" class="px-4 py-2 hover:bg-gray-100">Create Invoice</a>
-        <a href="#" class="px-4 py-2 hover:bg-gray-100">All Invoices</a>
-        <a href="#" class="px-4 py-2 hover:bg-gray-100">Customers</a>
-        <a href="#" class="px-4 py-2 hover:bg-gray-100">Reports</a>
-        <a href="#" class="px-4 py-2 bg-blue-50 font-semibold text-blue-700">Settings</a>
-      </nav>
-
-      <!-- Footer user -->
-      <div class="absolute bottom-4 w-64 px-4 py-3 border-t text-gray-600 text-sm">
-        <div class="font-medium">Admin User</div>
-        <div class="text-xs">admin@jvjewellers.com</div>
-      </div>
-    </aside>
-    
-    <!-- Overlay for mobile -->
-    <div class="overlay"></div>
+<?php
+    include '../include/header.php';
+?>
 
     <!-- Main Content -->
     <main class="flex-1 p-4 md:p-6 mt-16 md:mt-0 transition-all duration-300">
@@ -247,7 +201,6 @@
         </div>
       </div>
     </main>
-  </div>
-  <script src="main.js"></script>
-</body>
-</html>
+    <?php
+        include '../include/footer.php';
+    ?>
