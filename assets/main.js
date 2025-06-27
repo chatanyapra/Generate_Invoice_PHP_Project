@@ -264,3 +264,39 @@ const form = document.createElement('form');
 form.id = 'customer-form';
 form.innerHTML = document.getElementById('customer-modal').querySelector('.p-6').innerHTML;
 document.getElementById('customer-modal').querySelector('.p-6').replaceWith(form);
+
+// jquery table -------------------
+$(document).ready(function () {
+    // Initialize DataTable
+    var table = $('#customer-table').DataTable({
+        responsive: true,
+        dom: '<"flex flex-col sm:flex-row items-center justify-between"<"mb-2 sm:mb-0"l><"mb-2 sm:mb-0"f><"sm:ml-2"p>>rt<"flex flex-col sm:flex-row items-center justify-between"<"mb-2 sm:mb-0"i><"sm:ml-2"p>>',
+        language: {
+            search: "",
+            searchPlaceholder: "Search customers...",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            paginate: {
+                previous: "Previous",
+                next: "Next"
+            }
+        },
+        initComplete: function () {
+            // Update customer count
+            $('#customer-count').text(table.rows().count());
+        }
+    });
+
+    // Custom search input
+    $('#search-customer').keyup(function () {
+        table.search($(this).val()).draw();
+        $('#customer-count').text(table.rows({ search: 'applied' }).count());
+    });
+
+    // Clear search
+    $('#clear-search').click(function () {
+        $('#search-customer').val('');
+        table.search('').draw();
+        $('#customer-count').text(table.rows().count());
+    });
+});
