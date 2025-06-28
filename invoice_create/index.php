@@ -1,6 +1,6 @@
 <?php
-    $id=2;
-    require('../include/header.php');
+$id = 2;
+require('../include/header.php');
 ?>
 <style>
     /* Custom select arrow */
@@ -331,6 +331,61 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                     </button>
+                </div>
+            </div>
+            <!-- Step 3: Review & Generate -->
+            <div id="step3" class="form-step">
+                <p class="text-sm text-gray-500 mb-4">Step 3: Review & Generate Invoice</p>
+
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-xl font-semibold mb-6">Invoice Review</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <h3 class="text-lg font-medium mb-2">Invoice Details</h3>
+                            <div class="space-y-2">
+                                <p><strong>Invoice Number:</strong> <span id="review-invoice-number"></span></p>
+                                <p><strong>Invoice Date:</strong> <span id="review-invoice-date"></span></p>
+                                <p><strong>Transaction Type:</strong> <span id="review-transaction-type"></span></p>
+                                <p><strong>Buyer Name:</strong> <span id="review-buyer-name"></span></p>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium mb-2">Tax Summary</h3>
+                            <div id="review-tax-summary" class="space-y-1"></div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-lg font-medium mb-2">Line Items</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th class="px-2 py-3">HSN/SAC</th>
+                                    <th class="px-2 py-3">Description</th>
+                                    <th class="px-2 py-3 text-right">Quantity</th>
+                                    <th class="px-2 py-3 text-right">Rate</th>
+                                    <th class="px-2 py-3 text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="review-line-items"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button id="back-to-line-items" class="mr-4 font-semibold text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-100 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>
+                            Back to Line Items
+                        </button>
+                        <button id="submit-invoice" class="bg-green-600 text-white font-semibold py-2 px-6 rounded-lg shadow-sm hover:bg-green-700 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                            Submit Invoice
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

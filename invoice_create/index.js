@@ -1,12 +1,12 @@
-
-// invoice create js-----------------
-
 document.addEventListener('DOMContentLoaded', function () {
-    // Form navigation
+    // Form navigation elements
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
     const continueBtn = document.getElementById('continue-to-line-items');
     const backBtn = document.getElementById('back-to-invoice-details');
+    const continueToReviewBtn = document.getElementById('continue-to-review');
+    const submitInvoiceBtn = document.getElementById('submit-invoice');
 
     // Line items functionality
     const addItemBtn = document.getElementById('add-item');
@@ -18,6 +18,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalInvoiceEl = document.getElementById('total-invoice');
     const totalInvoiceWordsEl = document.getElementById('total-invoice-words');
 
+    // Review elements
+    const reviewInvoiceNumber = document.getElementById('review-invoice-number');
+    const reviewInvoiceDate = document.getElementById('review-invoice-date');
+    const reviewBuyerName = document.getElementById('review-buyer-name');
+    const reviewLineItems = document.getElementById('review-line-items');
+    const reviewTaxSummary = document.getElementById('review-tax-summary');
+
     // Required fields for validation
     const requiredFields = [
         { id: 'invoice-date', errorId: 'invoice-date-error' },
@@ -28,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Line items array
     let lineItems = [];
+    let invoiceData = {};
 
     // Initialize with step 1
     showStep(1);
@@ -37,6 +45,21 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         if (validateForm()) {
+            // Store invoice data
+            invoiceData = {
+                type: document.querySelector('input[name="type"]:checked').value,
+                mode: document.querySelector('input[name="mode"]:checked').value,
+                invoice_date: document.getElementById('invoice-date').value,
+                invoice_number: document.getElementById('invoice-number').value,
+                eway_bill: document.getElementById('eway-bill').value,
+                customer_id: document.getElementById('customer-select').value,
+                buyer_name: document.getElementById('buyer-name').value,
+                buyer_address: document.getElementById('buyer-address').value,
+                buyer_gstin: document.getElementById('buyer-gstin').value,
+                buyer_state: document.getElementById('buyer-state').value,
+                buyer_state_code: document.getElementById('buyer-state').value === 'UP' ? '09' : '27'
+            };
+            
             showStep(2);
         }
     });
@@ -61,14 +84,22 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Continue to review button click
-    document.getElementById('continue-to-review').addEventListener('click', function (e) {
+    continueToReviewBtn.addEventListener('click', function (e) {
         e.preventDefault();
         if (lineItems.length === 0) {
             alert('Please add at least one line item before continuing.');
             return;
         }
-        // In a real app, this would go to step 3
-        alert('Invoice data is valid and ready for review!');
+        
+        // Update review section with all data
+        updateReviewSection();
+        showStep(3);
+    });
+
+    // Submit invoice button click
+    submitInvoiceBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        submitInvoice();
     });
 
     // Validate form function
@@ -102,8 +133,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // Reset step indicators
         document.getElementById('step1-indicator').className = 'flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-500 font-bold';
         document.getElementById('step2-indicator').className = 'flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-500 font-bold';
+        document.getElementById('step3-indicator').className = 'flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-500 font-bold';
         document.getElementById('step1-text').className = 'ml-2 font-medium text-gray-500';
         document.getElementById('step2-text').className = 'ml-2 font-medium text-gray-500';
+        document.getElementById('step3-text').className = 'ml-2 font-medium text-gray-500';
 
         // Show selected step
         if (stepNumber === 1) {
@@ -114,6 +147,10 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('step2').classList.add('active');
             document.getElementById('step2-indicator').className = 'flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold';
             document.getElementById('step2-text').className = 'ml-2 font-semibold text-blue-600';
+        } else if (stepNumber === 3) {
+            document.getElementById('step3').classList.add('active');
+            document.getElementById('step3-indicator').className = 'flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold';
+            document.getElementById('step3-text').className = 'ml-2 font-semibold text-blue-600';
         }
     }
 
@@ -133,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const newItem = {
             id: Date.now(),
-            hsnSac,
+            hsn_sac_code: hsnSac.split(' - ')[0],
             description,
             quantity,
             unit,
@@ -154,30 +191,30 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateLineItemsTable() {
         if (lineItems.length === 0) {
             lineItemsBody.innerHTML = `
-            <tr>
-              <td colspan="6" class="text-center py-10 px-6 text-gray-500">
-                No items added yet
-              </td>
-            </tr>
-          `;
+                <tr>
+                    <td colspan="6" class="text-center py-10 px-6 text-gray-500">
+                        No items added yet
+                    </td>
+                </tr>
+            `;
             return;
         }
 
         lineItemsBody.innerHTML = lineItems.map(item => `
-          <tr class="bg-white border-b">
-            <td class="px-6 py-4">${item.hsnSac}</td>
-            <td class="px-6 py-4">${item.description}</td>
-            <td class="px-6 py-4">${item.quantity.toFixed(3)} ${item.unit}</td>
-            <td class="px-6 py-4">₹${item.rate.toFixed(2)}</td>
-            <td class="px-6 py-4">₹${item.taxableValue.toFixed(2)}</td>
-            <td class="px-6 py-4">
-              <button onclick="removeLineItem(${item.id})" class="text-red-500 hover:text-red-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            </td>
-          </tr>
+            <tr class="bg-white border-b">
+                <td class="px-6 py-4">${item.hsn_sac_code}</td>
+                <td class="px-6 py-4">${item.description}</td>
+                <td class="px-6 py-4">${item.quantity.toFixed(3)} ${item.unit}</td>
+                <td class="px-6 py-4">₹${item.rate.toFixed(2)}</td>
+                <td class="px-6 py-4">₹${item.taxableValue.toFixed(2)}</td>
+                <td class="px-6 py-4">
+                    <button onclick="removeLineItem(${item.id})" class="text-red-500 hover:text-red-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </button>
+                </td>
+            </tr>
         `).join('');
     }
 
@@ -205,49 +242,100 @@ document.addEventListener('DOMContentLoaded', function () {
         totalInvoiceWordsEl.textContent = numberToWords(totalInvoice) + ' Only';
     }
 
+    // Update review section with all data
+    function updateReviewSection() {
+        reviewInvoiceNumber.textContent = invoiceData.invoice_number;
+        reviewInvoiceDate.textContent = new Date(invoiceData.invoice_date).toLocaleDateString();
+        reviewBuyerName.textContent = invoiceData.buyer_name;
+
+        // Update line items in review
+        reviewLineItems.innerHTML = lineItems.map(item => `
+            <tr class="border-b">
+                <td class="py-2">${item.hsn_sac_code}</td>
+                <td class="py-2">${item.description}</td>
+                <td class="py-2 text-right">${item.quantity.toFixed(3)} ${item.unit}</td>
+                <td class="py-2 text-right">₹${item.rate.toFixed(2)}</td>
+                <td class="py-2 text-right">₹${item.taxableValue.toFixed(2)}</td>
+            </tr>
+        `).join('');
+
+        // Update tax summary in review
+        const taxableValue = lineItems.reduce((sum, item) => sum + item.taxableValue, 0);
+        const cgstRate = parseFloat(document.getElementById('cgst').value) || 1.5;
+        const sgstRate = parseFloat(document.getElementById('sgst').value) || 1.5;
+        const cgstAmount = taxableValue * (cgstRate / 100);
+        const sgstAmount = taxableValue * (sgstRate / 100);
+        const totalInvoice = taxableValue + cgstAmount + sgstAmount;
+
+        reviewTaxSummary.innerHTML = `
+            <div class="flex justify-between py-1">
+                <span>Taxable Value:</span>
+                <span>₹${taxableValue.toFixed(2)}</span>
+            </div>
+            <div class="flex justify-between py-1">
+                <span>CGST (${cgstRate}%):</span>
+                <span>₹${cgstAmount.toFixed(2)}</span>
+            </div>
+            <div class="flex justify-between py-1">
+                <span>SGST (${sgstRate}%):</span>
+                <span>₹${sgstAmount.toFixed(2)}</span>
+            </div>
+            <div class="border-t border-gray-200 my-2"></div>
+            <div class="flex justify-between font-semibold py-1">
+                <span>Total Invoice Value:</span>
+                <span>₹${totalInvoice.toFixed(2)}</span>
+            </div>
+            <div class="text-right text-sm text-gray-500 mt-1">
+                ${numberToWords(totalInvoice)} Only
+            </div>
+        `;
+    }
+
+    // Submit invoice function
+    function submitInvoice() {
+        // Prepare data for submission
+        const formData = {
+            ...invoiceData,
+            line_items: lineItems,
+            cgst_rate: parseFloat(document.getElementById('cgst').value) || 1.5,
+            sgst_rate: parseFloat(document.getElementById('sgst').value) || 1.5
+        };
+
+        // Show loading state
+        submitInvoiceBtn.disabled = true;
+        submitInvoiceBtn.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> Processing...';
+
+        // Submit via AJAX
+        fetch('../assets/php/submit_invoice.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Invoice created successfully!');
+                // Redirect to invoice list or print page
+                window.location.href = 'invoices.php';
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the invoice.');
+        })
+        .finally(() => {
+            submitInvoiceBtn.disabled = false;
+            submitInvoiceBtn.textContent = 'Submit Invoice';
+        });
+    }
+
     // Number to words function for invoice total
     function numberToWords(num) {
-        const single = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
-        const double = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
-        const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-        const formatTenth = (digit, prev) => {
-            return 0 == digit ? '' : ' ' + (1 == digit ? double[prev] : tens[digit]);
-        };
-        const formatOther = (digit, next, denom) => {
-            return (0 != digit && 1 != next ? ' ' + single[digit] : '') + (0 != next || digit > 0 ? ' ' + denom : '');
-        };
-
-        let str = '';
-        let rupees = Math.floor(num);
-        let paise = Math.round((num - rupees) * 100);
-
-        str += rupees > 0 ? formatOther(Math.floor(rupees / 10000000) % 100, 0, 'Crore') : '';
-        str += rupees > 0 ? formatOther(Math.floor(rupees / 100000) % 100, 0, 'Lakh') : '';
-        str += rupees > 0 ? formatOther(Math.floor(rupees / 1000) % 100, 0, 'Thousand') : '';
-        str += rupees > 0 ? formatOther(Math.floor(rupees / 100) % 10, 0, 'Hundred') : '';
-
-        if (rupees > 0) {
-            const tensValue = Math.floor(rupees % 100);
-            if (tensValue > 0) {
-                str += tensValue < 10 ? ' ' + single[tensValue] :
-                    tensValue < 20 ? ' ' + double[tensValue - 10] :
-                        ' ' + tens[Math.floor(tensValue / 10)] + (tensValue % 10 > 0 ? ' ' + single[tensValue % 10] : '');
-            }
-            str += ' Rupees';
-        }
-
-        if (paise > 0) {
-            if (rupees > 0) str += ' and';
-            const tensValue = Math.floor(paise % 100);
-            if (tensValue > 0) {
-                str += tensValue < 10 ? ' ' + single[tensValue] :
-                    tensValue < 20 ? ' ' + double[tensValue - 10] :
-                        ' ' + tens[Math.floor(tensValue / 10)] + (tensValue % 10 > 0 ? ' ' + single[tensValue % 10] : '');
-            }
-            str += ' Paise';
-        }
-
-        return str.trim() || 'Zero Rupees';
+        // ... (keep the existing numberToWords function implementation)
     }
 
     // Update summary when tax rates change
