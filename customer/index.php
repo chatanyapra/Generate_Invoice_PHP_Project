@@ -1,4 +1,5 @@
 <?php
+    $id=4;
     require('../include/header.php');
 ?>
 <style>

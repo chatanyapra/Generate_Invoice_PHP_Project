@@ -35,6 +35,11 @@ include('../include/dbConnection.php');
             color: red;
             font-size: 10px;
         }
+        .active-link {
+            background-color: #e0f2fe;
+            color: #2563eb;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -58,12 +63,12 @@ include('../include/dbConnection.php');
                 <p class="text-xs text-gray-500">GST Invoice Generator</p>
             </div>
             <nav class="flex flex-col mt-4 space-y-1 text-gray-700">
-                <a href="#" class="px-4 py-2 hover:bg-gray-100">Dashboard</a>
-                <a href="#" class="px-4 py-2 hover:bg-gray-100">Create Invoice</a>
-                <a href="#" class="px-4 py-2 hover:bg-gray-100">All Invoices</a>
-                <a href="#" class="px-4 py-2 hover:bg-gray-100">Customers</a>
-                <a href="#" class="px-4 py-2 hover:bg-gray-100">Reports</a>
-                <a href="#" class="px-4 py-2 bg-blue-50 font-semibold text-blue-700">Settings</a>
+                <a href="../" class="px-4 py-2 <?= $id==1 ? 'active-link' : 'hover:bg-gray-100' ?>">Dashboard</a>
+                <a href="../invoice_create/" class="px-4 py-2 <?= $id==2 ? 'active-link' : 'hover:bg-gray-100' ?>">Create Invoice</a>
+                <a href="../all_invoice/" class="px-4 py-2 <?= $id==3 ? 'active-link' : 'hover:bg-gray-100' ?>">All Invoices</a>
+                <a href="../customer/" class="px-4 py-2 <?= $id==4 ? 'active-link' : 'hover:bg-gray-100' ?>">Customers</a>
+                <a href="../reports/" class="px-4 py-2 <?= $id==5 ? 'active-link' : 'hover:bg-gray-100' ?>">Reports</a>
+                <a href="../setting/" class="px-4 py-2 <?= $id==6 ? 'active-link' : 'hover:bg-gray-100' ?>">Settings</a>
             </nav>
 
             <!-- Footer user -->

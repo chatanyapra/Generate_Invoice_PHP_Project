@@ -1,4 +1,5 @@
 <?php
+    $id=6;
     include '../include/header.php';
 ?>
 

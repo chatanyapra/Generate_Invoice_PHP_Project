@@ -1,4 +1,5 @@
 <?php
+    $id=5;
 include_once '../include/header.php';
 ?>
     <style>
