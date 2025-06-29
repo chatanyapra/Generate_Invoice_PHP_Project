@@ -20,8 +20,9 @@
         .invoice-container {
             width: 850px; /* Slightly wider than A4 (794px) to match image proportions */
             margin: 2rem auto;
+            height: 1179px;
             background: white;
-            padding: 2.5rem; /* Ample padding */
+            padding: 2.5rem;
             box-shadow: 0 0 15px rgba(0,0,0,0.15);
         }
         /* All tables have collapsed borders for a clean look */
@@ -32,7 +33,7 @@
         /* Default border style for all table cells */
         th, td {
             border: 1px solid black;
-            padding: 4px 8px; /* Padding inside cells */
+            padding: 4px 8px;
             vertical-align: top;
         }
         /* Utility class to remove the top border from a table, allowing it to merge with the container above */
@@ -45,24 +46,26 @@
     </style>
 </head>
 <body>
-
-    <div class="invoice-container">
+    <div class="invoice-container pt-6 leading-[1.2]">
         <!-- Header Section -->
-        <header class="mb-2">
-            <h1 class="text-center font-bold text-xl tracking-wide">Tax Invoice</h1>
-            <div class="text-right text-xs font-semibold">(ORIGINAL FOR RECIPIENT)</div>
-        </header>
+        <div class="flex justify-between items-center">
+            <div class="w-[40%]"></div>
+            <div class="flex justify-between items-center w-[60%] ">
+                <div class="text-center font-bold text-[16px] tracking-wide">Tax Invoice</div>
+                <i class="text-right text-xs">(ORIGINAL FOR RECIPIENT)</i>
+            </div>
+        </div>
 
         <!-- Main Info Block -->
-        <div class="grid grid-cols-2 border border-black">
+        <div class="grid grid-cols-2 border border-gray-400 h-[306px]">
             <!-- Left Column: Seller and Buyer Info -->
-            <div class="p-2 border-r border-black">
+            <div class="py-1 border-r border-gray-400 text-xs px-0.5">
                 <div class="font-bold">J.V. JEWELLERS</div>
                 <div>SHOP NO. -2, KRISHNA HIEGHT, JAY SINGH PURA</div>
                 <div>MATHURA</div>
-                <div class="mt-1">GSTIN/UIN: 09ADCPV2673H1Z7</div>
+                <div class="">GSTIN/UIN: 09ADCPV2673H1Z7</div>
                 <div>State Name : Uttar Pradesh, Code : 09</div>
-                <hr class="my-2.5 border-t border-black border-dashed">
+                <hr class="my-0.5 border-t border-gray-400 ">
                 <div class="font-bold">Buyer (Bill to)</div>
                 <div class="font-bold mt-1">RAJEEV KUMAR SANDEEP KUMAR JAIN SARRAF</div>
                 <div class="font-bold">SAHARANPUR</div>
@@ -75,32 +78,42 @@
                 <table class="text-xs">
                     <tbody>
                         <tr class="divide-x divide-black">
-                            <td class="w-1/3"><p>Invoice No.</p><strong class="text-sm font-bold">JVJ/D/019</strong></td>
-                            <td class="w-1/3"><p>e-Way Bill No.</p></td>
-                            <td class="w-1/3"><p>Dated</p><strong class="text-sm font-bold">27-Sep-24</strong></td>
+                            <td class="w-1/3 pb-[0px]">
+                                <span class="flex justify-between items-center">
+                                    <div>
+                                        <p>Invoice No.</p>
+                                        <strong class="text-sm font-bold">JVJ/D/019</strong>
+                                    </div>
+                                    <div>
+                                        <p>e-Way Bill No.</p>
+                                        <strong class="text-sm font-bold">   </strong>
+                                    </div>
+                                </span>
+                            </td>
+                            <td class="w-1/3 pb-[0px]"><p>Dated</p><strong class="text-sm font-bold">27-Sep-24</strong></td>
                         </tr>
-                        <tr class="divide-x divide-black">
-                            <td><p>Delivery Note</p></td>
+                        <tr class="divide-x divide-black text-[12px]">
+                            <td class="pb-[10px]"><p>Delivery Note</p></td>
                             <td colspan="2"><p>Mode/Terms of Payment</p></td>
                         </tr>
-                        <tr class="divide-x divide-black">
-                            <td><p>Reference No. & Date.</p></td>
+                        <tr class="divide-x divide-black text-[12px]">
+                            <td class="pb-[10px]"><p>Reference No. & Date.</p></td>
                             <td colspan="2"><p>Other References</p></td>
                         </tr>
-                        <tr class="divide-x divide-black">
-                            <td><p>Buyer's Order No.</p></td>
+                        <tr class="divide-x divide-black text-[12px]">
+                            <td class="pb-[10px]"><p>Buyer's Order No.</p></td>
                             <td colspan="2"><p>Dated</p></td>
                         </tr>
-                        <tr class="divide-x divide-black">
-                            <td><p>Dispatch Doc No.</p></td>
+                        <tr class="divide-x divide-black text-[12px]">
+                            <td class="pb-[10px]"><p>Dispatch Doc No.</p></td>
                             <td colspan="2"><p>Delivery Note Date</p></td>
                         </tr>
-                        <tr class="divide-x divide-black">
-                            <td><p>Dispatched through</p></td>
+                        <tr class="divide-x divide-black text-[12px]">
+                            <td class="pb-[10px]"><p>Dispatched through</p></td>
                             <td colspan="2"><p>Destination</p></td>
                         </tr>
-                         <tr class="divide-x divide-black">
-                            <td colspan="3" class="h-12"><p>Terms of Delivery</p></td>
+                         <tr class="divide-x divide-black text-[11.5px]">
+                            <td colspan="2" class="h-[110px]"><p>Terms of Delivery</p></td>
                         </tr>
                     </tbody>
                 </table>
@@ -108,7 +121,7 @@
         </div>
 
         <!-- Items Table -->
-        <table class="no-top-border">
+        <table class="border border-black">
             <thead>
                 <tr class="divide-x divide-black text-center font-bold">
                     <td class="w-[5%]">Sl No.</td>
@@ -120,19 +133,19 @@
                     <td class="w-[15%]">Amount</td>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="divide-x divide-black">
+            <tbody class="h-[420px]">
+                <tr class="divide-x divide-black h-[150px]">
                     <td class="text-center">1</td>
-                    <td class="h-52">
-                        <div class="flex flex-col justify-between h-full">
+                    <td class="">
+                        <div class="flex flex-col justify-between">
                             <p class="font-bold mt-1">SILVER ORNAMENTS</p>
                             <div>
-                                <p>Less :</p>
-                                <div class="text-right pr-12 mt-1 space-y-px">
+                                <div class="text-right mt-1 space-y-px pt-4">
                                     <p>CGST</p>
                                     <p>SGST</p>
                                     <p class="font-bold">ROUNDED OFF</p>
                                 </div>
+                                <p class="-mt-[15px]">Less :</p>
                             </div>
                         </div>
                     </td>
@@ -160,24 +173,28 @@
                     <td class="text-right">
                         <div class="flex justify-between items-center">
                             <span>₹ 6,03,795.00</span>
-                            <span class="font-normal text-[10px] ml-4">E. & O.E</span>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="7" class="font-bold p-2">
-                        Amount Chargeable (in words)<br>
-                        <span class="ml-1">Indian Rupees Six Lakh Three Thousand Seven Hundred Ninety Five Only</span>
+                        <div class="flex justify-between">
+                            <span>
+                                Amount Chargeable (in words)<br>
+                                <span class="font-[700] text-[13px]">Indian Rupees Six Lakh Three Thousand Seven Hundred Ninety Five Only</span>
+                            </span>
+                            <span class="font-normal text-[10px] ml-4">E. & O.E</span>
+                        </div>
                     </td>
                 </tr>
             </tfoot>
         </table>
 
         <!-- Tax Summary Table -->
-        <table class="no-top-border">
+        <table class="no-top-border border border-black border-t-0">
             <thead>
                 <tr class="divide-x divide-black text-center font-bold">
-                    <td rowspan="2" class="align-middle">HSN/SAC</td>
+                    <td rowspan="2" colspan="" class="align-middle w-[280px]">HSN/SAC</td>
                     <td rowspan="2" class="align-middle">Taxable Value</td>
                     <td colspan="2">CGST</td>
                     <td colspan="2">SGST/UTGST</td>
@@ -202,7 +219,7 @@
                 </tr>
             </tbody>
             <tfoot>
-                <tr class="divide-x divide-black font-bold">
+                <tr class="divide-x divide-black font-[800]">
                     <td class="text-center">Total</td>
                     <td class="text-right">5,86,208.83</td>
                     <td class="text-right" colspan="2">8,793.13</td>
@@ -212,30 +229,29 @@
             </tfoot>
         </table>
         
-        <div class="border border-t-0 border-black p-2">
-            <p>Tax Amount (in words) : <span class="font-bold">Indian Rupees Seventeen Thousand Five Hundred Eighty Six and Twenty Six paise Only</span></p>
+        <div class="border border-y-0 border-black p-2">
+            <p class="text-[12px]">Tax Amount (in words) : <span class="font-[700] text-[13px]">Indian Rupees Seventeen Thousand Five Hundred Eighty Six and Twenty Six paise Only</span></p>
         </div>
         
-        <div class="grid grid-cols-2 border border-t-0 border-black">
-            <div class="p-2 border-r border-black">
-                 <p>Company's VAT TIN : 09627100742</p>
-                 <p>Buyer's VAT TIN    : 09871300591</p>
-                 <p>Company's PAN      : ADCPV2673H</p>
+        <div class="grid grid-cols-2 border border-t-0 border-black text-[12px] h-[120px]">
+            <div class="p-2">
+                 <p>Company's VAT TIN               : <b>09627100742</b></p>
+                 <p>Buyer's VAT TIN                     : <b>09871300591</b></p>
+                 <p>Company's PAN                     : <b>ADCPV2673H</b></p>
                  <br>
                  <p class="font-bold underline">Declaration</p>
                  <p>We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.</p>
             </div>
-            <div class="p-2 flex flex-col justify-between">
+            <div class=" flex flex-col justify-between ">
                 <div>
                     <p>Company's Bank Details</p>
-                    <p>Bank Name : ICICI BANK C/A NO. 027405001417 (JVM)</p>
-                    <p>A/c No.      : </p>
+                    <p>Bank Name             : ICICI BANK C/A NO. 027405001417 (JVM)</p>
+                    <p>A/c No.                    : </p>
                     <p>Branch & IFS Code : </p>
                 </div>
-                <div class="text-center pt-10">
-                    <p class="font-bold">for J.V. JEWELLERS</p>
-                    <br><br>
-                    <p class="pt-1 border-t border-black">Authorised Signatory</p>
+                <div class="text-end border-t border-black py-0.5 px-2 border-l border-black">
+                    <p class="font-bold pb-7">for J.V. JEWELLERS</p>
+                    <p class="">Authorised Signatory</p>
                 </div>
             </div>
         </div>
