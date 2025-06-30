@@ -28,6 +28,41 @@ require('../include/header.php');
         font-size: 0.75rem;
         margin-top: 0.25rem;
     }
+
+    .invoice-container {
+        width: 850px;
+        /* Slightly wider than A4 (794px) to match image proportions */
+        margin: 2rem auto;
+        height: 1179px;
+        background: white;
+        padding: 2.5rem;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    }
+
+    /* All tables have collapsed borders for a clean look */
+    table {
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    /* Default border style for all table cells */
+    th,
+    td {
+        border: 1px solid black;
+        padding: 4px 8px;
+        vertical-align: top;
+    }
+
+    /* Utility class to remove the top border from a table, allowing it to merge with the container above */
+    .no-top-border {
+        border-top: none;
+    }
+
+    .no-top-border th,
+    .no-top-border td {
+        border-top: none;
+    }
 </style>
 <div class="flex flex-col lg:flex-row min-h-screen m-auto w-[83%] ">
     <!-- Main Content -->
@@ -372,19 +407,233 @@ require('../include/header.php');
                         </table>
                     </div>
 
-                    <div class="mt-8 flex justify-end">
-                        <button id="back-to-line-items" class="mr-4 font-semibold text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-100 flex items-center">
+                    <!-- Invoice Slip Preview -->
+                    <!-- Invoice Slip Preview -->
+                    <div class="mt-8 border-t pt-6">
+                        <h3 class="text-lg font-medium mb-4">Invoice Slip Preview</h3>
+
+                        <div id="invoice-slip-container" class="border rounded-lg p-4 bg-gray-50">
+                            <div id="invoice-content" class="bg-white p-4 mx-auto" style="width: 210mm; transform: scale(0.8); transform-origin: top left;">
+                                <!-- Header Section -->
+                                <div class="flex justify-between items-center">
+                                    <div class="w-[40%]"></div>
+                                    <div class="flex justify-between items-center w-[60%]">
+                                        <div class="text-center font-bold text-[16px] tracking-wide">Tax Invoice</div>
+                                        <i id="invoice-title" class="text-right text-xs">(ORIGINAL FOR RECIPIENT)</i>
+                                    </div>
+                                </div>
+
+                                <!-- Main Info Block -->
+                                <div class="grid grid-cols-2 border border-black h-[220px]">
+                                    <!-- Left Column: Seller and Buyer Info -->
+                                    <div class="py-1 border-r border-black text-xs px-0.5">
+                                        <div class="font-bold">J.V. JEWELLERS</div>
+                                        <div>SHOP NO. -2, KRISHNA HIEGHT, JAY SINGH PURA</div>
+                                        <div>MATHURA</div>
+                                        <div class="">GSTIN/UIN: 09ADCPV2673H1Z7</div>
+                                        <div>State Name : Uttar Pradesh, Code : 09</div>
+                                        <hr class="my-0.5 border-t border-black">
+                                        <div class="font-bold">Buyer (Bill to)</div>
+                                        <div class="font-bold mt-1" id="slip-buyer-name"></div>
+                                        <div class="font-bold" id="slip-buyer-city"></div>
+                                        <div class="mt-1">GSTIN/UIN: <span id="slip-buyer-gstin"></span></div>
+                                        <div>State Name: <span id="slip-buyer-state"></span></div>
+                                    </div>
+
+                                    <!-- Right Column: Invoice Metadata Table -->
+                                    <div>
+                                        <table class="text-xs">
+                                            <tbody>
+                                                <tr class="divide-x divide-black">
+                                                    <td class="w-1/2 border-0 border-b border-black">
+                                                        <p>Invoice No.</p>
+                                                        <strong class="text-sm font-bold" id="slip-invoice-number">JVJ/D/019</strong>
+                                                    </td>
+                                                    <td class="w-1/2 border-0 border-b border-r-0 border-black">
+                                                        <p>Dated</p>
+                                                        <strong class="text-sm font-bold" id="slip-invoice-date">27-Sep-24</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr class="divide-x divide-black text-[11px]">
+                                                    <td class="border-b border-black">
+                                                        <p>Delivery Note</p>
+                                                        <div class="h-4"></div>
+                                                    </td>
+                                                    <td class="border-b border-r-0 border-black">
+                                                        <p>Mode/Terms of Payment</p>
+                                                        <div class="h-4"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="divide-x divide-black text-[11px]">
+                                                    <td class="border-b border-black">
+                                                        <p>Buyer's Order No.</p>
+                                                        <div class="h-4"></div>
+                                                    </td>
+                                                    <td class="border-b border-r-0 border-black">
+                                                        <p>Dated</p>
+                                                        <div class="h-4"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="divide-x divide-black text-[11px]">
+                                                    <td colspan="2" class="border-b-0 border-r-0">
+                                                        <p>Terms of Delivery</p>
+                                                        <div class="h-4"></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Items Table -->
+                                <table class="border border-black border-t-0">
+                                    <thead>
+                                        <tr class="divide-x divide-black text-center font-bold">
+                                            <td class="w-[5%]">Sl No.</td>
+                                            <td class="w-[35%]">Description of Goods</td>
+                                            <td class="w-[10%]">HSN/SAC</td>
+                                            <td class="w-[11%]">Quantity</td>
+                                            <td class="w-[11%]">Rate</td>
+                                            <td class="w-[8%]">per</td>
+                                            <td class="w-[15%]">Amount</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="slip-line-items" class="h-[420px]">
+                                        <!-- Line items will be inserted here by JavaScript -->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="divide-x divide-black font-bold">
+                                            <td colspan="3" class="text-center">Total</td>
+                                            <td class="text-center" id="slip-total-quantity">10.468 KGS</td>
+                                            <td colspan="2"></td>
+                                            <td class="text-right">
+                                                <div class="flex justify-between items-center">
+                                                    <span id="slip-total-amount">₹ 6,03,795.00</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="7" class="font-bold p-2">
+                                                <div class="flex justify-between">
+                                                    <span>
+                                                        Amount Chargeable (in words)<br>
+                                                        <span class="font-[700] text-[13px]" id="slip-amount-words">Indian Rupees Six Lakh Three Thousand Seven Hundred Ninety Five Only</span>
+                                                    </span>
+                                                    <span class="font-normal text-[10px] ml-4">E. & O.E</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+
+                                <!-- Tax Summary Table -->
+                                <table class="no-top-border border border-black border-t-0">
+                                    <thead>
+                                        <tr class="divide-x divide-black text-center font-bold">
+                                            <td rowspan="2" class="align-middle w-[280px]">HSN/SAC</td>
+                                            <td rowspan="2" class="align-middle">Taxable Value</td>
+                                            <td colspan="2">CGST</td>
+                                            <td colspan="2">SGST/UTGST</td>
+                                            <td rowspan="2" class="align-middle">Total Tax Amount</td>
+                                        </tr>
+                                        <tr class="divide-x divide-black text-center font-bold">
+                                            <td>Rate</td>
+                                            <td>Amount</td>
+                                            <td>Rate</td>
+                                            <td>Amount</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="slip-tax-summary">
+                                        <!-- Tax summary will be inserted here by JavaScript -->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="divide-x divide-black font-[800]">
+                                            <td class="text-center">Total</td>
+                                            <td class="text-right" id="slip-taxable-value">5,86,208.83</td>
+                                            <td class="text-right" colspan="2" id="slip-cgst-amount">8,793.13</td>
+                                            <td class="text-right" colspan="2" id="slip-sgst-amount">8,793.13</td>
+                                            <td class="text-right" id="slip-total-tax">17,586.26</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+
+                                <div class="border border-y-0 border-black p-2">
+                                    <p class="text-[12px]">Tax Amount (in words) : <span class="font-[700] text-[13px]" id="slip-tax-words">Indian Rupees Seventeen Thousand Five Hundred Eighty Six and Twenty Six paise Only</span></p>
+                                </div>
+
+                                <div class="grid grid-cols-2 border border-t-0 border-black text-[12px] h-[155px]">
+                                    <div class="p-2">
+                                        <p>Company's VAT TIN               : <b>09627100742</b></p>
+                                        <p>Buyer's VAT TIN                     : <b>09871300591</b></p>
+                                        <p>Company's PAN                     : <b>ADCPV2673H</b></p>
+                                        <br>
+                                        <p class="font-bold underline">Declaration</p>
+                                        <p>We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.</p>
+                                    </div>
+                                    <div class="flex flex-col justify-between">
+                                        <div>
+                                            <p>Company's Bank Details</p>
+                                            <p>Bank Name             : ICICI BANK C/A NO. 027405001417 (JVM)</p>
+                                            <p>A/c No.                    : </p>
+                                            <p>Branch & IFS Code : </p>
+                                        </div>
+                                        <div class="text-end border-t border-black py-0.5 px-2 border-l border-black">
+                                            <p class="font-bold pb-7">for J.V. JEWELLERS</p>
+                                            <p class="">Authorised Signatory</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-4 text-xs font-semibold">This is a Computer Generated Invoice</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Generation Options -->
+                    <div class="mt-8">
+                        <h3 class="text-lg font-medium mb-2">Generation Options</h3>
+
+                        <div class="mb-4">
+                            <label class="block font-medium mb-2">Invoice Copies</label>
+                            <div class="flex flex-wrap gap-4">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" id="originalCopy" class="form-checkbox h-5 w-5 text-blue-600" checked>
+                                    <span class="ml-2">Original for Recipient</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" id="duplicateCopy" class="form-checkbox h-5 w-5 text-blue-600" checked>
+                                    <span class="ml-2">Duplicate for Transporter</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" id="triplicateCopy" class="form-checkbox h-5 w-5 text-blue-600" checked>
+                                    <span class="ml-2">Triplicate for Supplier</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Navigation -->
+                    <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between items-center">
+                        <button id="back-to-line-items" class="mt-4 sm:mt-0 font-semibold text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-100 flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
                             Back to Line Items
                         </button>
-                        <button id="submit-invoice" class="bg-green-600 text-white font-semibold py-2 px-6 rounded-lg shadow-sm hover:bg-green-700 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            Submit Invoice
-                        </button>
+                        <div>
+                            <button id="generate-pdf" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-sm hover:bg-blue-700 flex items-center justify-center mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+                                </svg>
+                                Generate PDF
+                            </button>
+                            <button id="submit-invoice" class="bg-green-600 text-white font-semibold py-2 px-6 rounded-lg shadow-sm hover:bg-green-700 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                                Submit Invoice
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -396,3 +645,6 @@ require('../include/header.php');
 require('../include/footer.php');
 ?>
 <script src="./index.js"></script>
+<!-- Add these in the head section of your create-invoice.php -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
