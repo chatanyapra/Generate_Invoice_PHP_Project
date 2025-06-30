@@ -513,42 +513,41 @@ document.addEventListener('DOMContentLoaded', function () {
             format: 'a4'
         });
 
-        // Calculate the width of the content to scale it properly
-        const pdfWidth = pdf.internal.pageSize.getWidth() - 20; // 20mm margin (10mm each side)
-        const pdfHeight = pdf.internal.pageSize.getHeight();
+        // A4 dimensions in mm
+        const pdfWidth = 190;
+        const pdfHeight = 277;
+
+        // Calculate scale to fit exactly
+        const contentWidth = 794; // px (same as your #invoice-content width)
+        const contentHeight = 1123; // px (same as your #invoice-content height)
+        const scale = Math.min(pdfWidth / (contentWidth * 0.264583), pdfHeight / (contentHeight * 0.264583)); // px to mm conversion factor
 
         for (let i = 0; i < selectedCopies.length; i++) {
             const copy = selectedCopies[i];
-
-            // Update the title on the HTML for capturing
             invoiceTitleEl.textContent = copy.title;
 
-            // Use html2canvas to render the invoice content with proper scaling
             const canvas = await html2canvas(invoiceContent, {
-                scale: 2, // Higher quality
+                scale: 2, // Higher quality rendering
                 useCORS: true,
                 logging: false,
                 scrollX: 0,
                 scrollY: 0,
-                windowWidth: 850, // Match your invoice container width
-                width: 850, // Match your invoice container width
-                height: invoiceContent.scrollHeight
+                width: contentWidth,
+                height: contentHeight,
+                windowWidth: contentWidth,
+                windowHeight: contentHeight
             });
 
             const imgData = canvas.toDataURL('image/png');
-            const imgProps = pdf.getImageProperties(imgData);
-
-            // Calculate aspect ratio to maintain proportions
-            const imgWidth = pdfWidth;
-            const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
 
             // Add new page if not the first page
             if (i > 0) {
                 pdf.addPage();
             }
 
-            // Center the content on the page with margins
-            pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+            // Add image to fit the entire A4 page// Adjust these values in the pdf.addImage() call:
+            pdf.addImage(imgData, 'PNG', 5, 5, pdfWidth-10, pdfHeight-10, undefined, 'FAST');
+            // pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
         }
 
         // Restore original state
@@ -556,7 +555,6 @@ document.addEventListener('DOMContentLoaded', function () {
         this.disabled = false;
         this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>Generate PDF';
 
-        // Save the PDF
         pdf.save(`${invoiceData.invoice_number.replace(/\//g, '-')}.pdf`);
     });
 
