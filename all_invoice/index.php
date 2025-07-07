@@ -1,5 +1,5 @@
 <?php
-    $id=3;
+$id = 3;
 require('../include/header.php');
 ?>
 <style>
